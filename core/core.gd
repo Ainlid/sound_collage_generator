@@ -5,6 +5,10 @@ var interval = 1.0
 onready var timer_beat = $timer_beat
 
 var samples = []
+var offset_amount = 8
+var pitch_amount = 4
+var size_amount = 4
+var volume_amount = 4
 onready var file_dialog = $interface/load_menu/file_dialog
 onready var file_list = $interface/load_menu/file_scroll/file_list
 
@@ -81,8 +85,6 @@ func _ready():
 	_set_tempo_random(0.0)
 	_set_volume_random(0.0)
 	_set_pitch_random(0.0)
-
-	_set_rounding(64.0)
 
 	_set_master_volume(0.0)
 
@@ -168,15 +170,50 @@ func _files_selected(paths):
 		if file.file_exists(paths[n]):
 			file.open(paths[n], file.READ)
 			var buffer = file.get_buffer(file.get_len())
-			var new_sample = AudioStreamSample.new()
-			new_sample.format = AudioStreamSample.FORMAT_16_BITS      
-			new_sample.data = buffer
-			new_sample.stereo = true
-			new_sample.mix_rate = 44100
+			var new_stream = AudioStreamSample.new()
+			new_stream.format = AudioStreamSample.FORMAT_16_BITS      
+			new_stream.data = buffer
+			new_stream.stereo = true
+			new_stream.mix_rate = 44100
+			var offsets = []
+			for n_offset in offset_amount:
+				offsets.append(_pick_offset(new_stream))
+			var pitches = []
+			for n_pitch in pitch_amount:
+				pitches.append(_pick_pitch())
+			var sizes = []
+			for n_size in size_amount:
+				sizes.append(_pick_size())
+			var volumes = []
+			for n_volume in volume_amount:
+				volumes.append(_pick_volume())
+			var new_sample = {
+				"stream" : new_stream,
+				"offsets" : offsets,
+				"pitches" : pitches,
+				"sizes" : sizes,
+				"volumes" : volumes,
+			}
 			samples.append(new_sample)
 			file_list.text += str(paths[n].get_file()) + "\n"
 			file.close()
 	play_button.disabled = false
+
+func _pick_offset(stream):
+	var new_offset = rng.randf_range(0.0, stream.get_length())
+	return new_offset
+
+func _pick_pitch():
+	var new_pitch = pow(2.0, rng.randi_range(-6, 6) / 12.0)
+	return new_pitch
+
+func _pick_size():
+	var new_size = rng.randi_range(1, 4)
+	return new_size
+
+func _pick_volume():
+	var new_volume = rng.randf_range(-6.0, 0.0)
+	return new_volume
 
 func _clear_samples():
 	samples = []
@@ -243,16 +280,17 @@ func _randomize_params():
 func _spawn_grain():
 	var new_grain = grain.instance()
 	add_child(new_grain)
-	var sample_id = rng.randi_range(0, samples.size() - 1)
-	var curr_sample = samples[sample_id]
-	var new_offset
-	if use_rounding:
-		new_offset = curr_sample.get_length() / rounding * rng.randi_range(0, rounding)
-	else:
-		new_offset = rng.randf_range(0.0, curr_sample.get_length())
-	var new_pitch = pow(2.0, pitch / 12.0)
-	var new_size = interval * size
-	new_grain._grain_play(curr_sample, new_offset, new_pitch, new_size, volume)
+	var sample_id = rng.randi()%samples.size()
+	var current_sample = samples[sample_id]
+	var offset_array = current_sample["offsets"]
+	var random_offset = offset_array[rng.randi()%offset_array.size()]
+	var pitch_array = current_sample["pitches"]
+	var random_pitch = pitch_array[rng.randi()%pitch_array.size()]
+	var size_array = current_sample["sizes"]
+	var random_size = size_array[rng.randi()%size_array.size()] * interval
+	var volume_array = current_sample["volumes"]
+	var random_volume = volume_array[rng.randi()%volume_array.size()]
+	new_grain._grain_play(current_sample["stream"], random_offset, random_pitch, random_size, random_volume)
 
 func _quit_pressed():
 	get_tree().quit()
