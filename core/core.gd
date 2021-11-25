@@ -2,13 +2,18 @@ extends Node2D
 
 var tempo = 120.0
 var interval = 1.0
-onready var timer_beat = $timer_beat
+var tick_index = 0
+var bar_size = 8
+var duration = 120.0
+onready var timer_tick = $timer_tick
+onready var timer_end = $timer_end
 
 var samples = []
 var offset_amount = 8
 var pitch_amount = 4
 var size_amount = 4
 var volume_amount = 4
+
 onready var file_dialog = $interface/load_menu/file_dialog
 onready var file_list = $interface/load_menu/file_scroll/file_list
 
@@ -16,50 +21,19 @@ onready var play_button = $interface/play_button
 onready var samples_error = $interface/samples_error
 var playing = false
 
+var mutation_enabled = true
+var endless_enabled = false
+
 var rng
 var rng_seed
 
 var grain = preload("res://grain/grain.tscn")
-var volume = 0.0
-var size_min = 1
-var size_max = 4
-var pitch = 0
-var size = 0
-
-var use_rounding = false
-var rounding = 16.0
-
-var tempo_random = 0.0
-var volume_random = 0.0
-var pitch_random = 0.0
-var size_random = 0.0
 
 onready var tempo_label = $interface/settings/tempo_label
 onready var tempo_slider = $interface/settings/tempo_slider
 
-onready var volume_label = $interface/settings/volume_label
-onready var volume_slider = $interface/settings/volume_slider
-
-onready var pitch_label = $interface/settings/pitch_label
-onready var pitch_slider = $interface/settings/pitch_slider
-
-onready var size_label = $interface/settings/size_label
-onready var size_slider = $interface/settings/size_slider
-
-onready var rounding_label = $interface/settings/rounding_label
-onready var rounding_slider = $interface/settings/rounding_slider
-
-onready var tempo_random_label = $interface/settings/tempo_random_label
-onready var tempo_random_slider = $interface/settings/tempo_random_slider
-
-onready var volume_random_label = $interface/settings/volume_random_label
-onready var volume_random_slider = $interface/settings/volume_random_slider
-
-onready var pitch_random_label = $interface/settings/pitch_random_label
-onready var pitch_random_slider = $interface/settings/pitch_random_slider
-
-onready var size_random_label = $interface/settings/size_random_label
-onready var size_random_slider = $interface/settings/size_random_slider
+onready var duration_label = $interface/settings/duration_label
+onready var duration_spinbox = $interface/settings/duration_spinbox
 
 onready var seed_box = $interface/settings/seed_box
 
@@ -70,26 +44,17 @@ onready var save_path_label = $interface/save_path_label
 var effect
 var recording
 
-onready var master_volume_label = $interface/master_volume_label
-onready var master_volume_slider = $interface/master_volume_slider
+onready var master_volume_label = $interface/settings/master_volume_label
+onready var master_volume_slider = $interface/settings/master_volume_slider
 
 func _ready():
 	randomize()
 	rng = RandomNumberGenerator.new()
 
 	_set_tempo(120.0)
-	_set_volume(0.0)
-	_set_pitch(0)
-	_set_size(1)
-
-	_set_tempo_random(0.0)
-	_set_volume_random(0.0)
-	_set_pitch_random(0.0)
-
+	_set_duration(120.0)
 	_set_master_volume(0.0)
-
 	_randomize_seed()
-
 	_clear_samples()
 
 	effect = AudioServer.get_bus_effect(0, 0)
@@ -107,52 +72,13 @@ func _randomize_seed():
 func _set_tempo(value):
 	tempo = value
 	interval = 60.0 / tempo
-	timer_beat.wait_time = interval
+	timer_tick.wait_time = interval
 	tempo_slider.value = value
 	tempo_label.text = "Tempo: " + str(round(value)) + " BPM"
 
-func _set_volume(value):
-	volume = value
-	volume_slider.value = value
-	volume_label.text = "Volume: " + str(round(value)) + " dB"
-
-func _set_pitch(value):
-	pitch = value
-	pitch_slider.value = value
-	pitch_label.text = "Pitch: " + str(round(value)) + " st"
-
-func _set_size(value):
-	size = value
-	size_slider.value = value
-	size_label.text = "Size: " + str(round(value)) + "/4"
-
-func _set_tempo_random(value):
-	tempo_random = value
-	tempo_random_label.text = "Randomization: " + str(value) + "%"
-
-func _set_volume_random(value):
-	volume_random = value
-	volume_random_label.text = "Randomization: " + str(value) + "%"
-
-func _set_pitch_random(value):
-	pitch_random = value
-	pitch_random_label.text = "Randomization: " + str(value) + "%"
-
-func _set_size_random(value):
-	size_random = value
-	size_random_label.text = "Randomization: " + str(value) + "%"
-
-func _toggle_rounding(toggled):
-	if toggled:
-		use_rounding = true
-		rounding_slider.editable = true
-	else:
-		use_rounding = false
-		rounding_slider.editable = false
-
-func _set_rounding(value):
-	rounding = value
-	rounding_label.text = "Rounding factor: " + str(value)
+func _set_duration(value):
+	duration = value
+	duration_spinbox.value = value
 
 func _set_master_volume(value):
 	AudioServer.set_bus_volume_db(0, value)
@@ -230,12 +156,15 @@ func _play_pressed():
 
 func _play_start():
 	_set_seed(rng_seed)
-	timer_beat.start()
+	timer_tick.start()
+	if !endless_enabled:
+		timer_end.wait_time = duration
+		timer_end.start()
 	playing = true
 	play_button.text = "Stop"
 
 func _play_stop():
-	timer_beat.stop()
+	timer_tick.stop()
 	playing = false
 	play_button.text = "Play"
 
@@ -253,29 +182,23 @@ func _save_pressed():
 	recording.save_to_wav(save_path)
 
 func _tick():
-	_randomize_params()
 	_spawn_grain()
+	tick_index += 1
+	if tick_index > bar_size - 1:
+		if mutation_enabled:
+			_mutate()
+		tick_index = 0
 
-func _randomize_params():
-	var tempo_rand_chance = rng.randf() * 100.0
-	if tempo_rand_chance < tempo_random:
-		var new_tempo = rng.randi_range(50, 200)
-		_set_tempo(new_tempo)
-
-	var volume_rand_chance = rng.randf() * 100.0
-	if volume_rand_chance < volume_random:
-		var new_volume = rng.randf_range(-6.0, 0.0)
-		_set_volume(new_volume)
-
-	var pitch_rand_chance = rng.randf() * 100.0
-	if pitch_rand_chance < pitch_random:
-		var new_pitch = rng.randi_range(-6, 6)
-		_set_pitch(new_pitch)
-
-	var size_rand_chance = rng.randf() * 100.0
-	if size_rand_chance < size_random:
-		var new_size = rng.randi_range(1, 4)
-		_set_size(new_size)
+func _mutate():
+	for n_sample in samples:
+		var offset_id = rng.randi()%n_sample["offsets"].size()
+		n_sample["offsets"][offset_id] = _pick_offset(n_sample["stream"])
+		var pitch_id = rng.randi()%n_sample["pitches"].size()
+		n_sample["pitches"][pitch_id] = _pick_pitch()
+		var size_id = rng.randi()%n_sample["sizes"].size()
+		n_sample["sizes"][size_id] = _pick_size()
+		var volume_id = rng.randi()%n_sample["volumes"].size()
+		n_sample["volumes"][volume_id] = _pick_volume()
 
 func _spawn_grain():
 	var new_grain = grain.instance()
@@ -294,3 +217,9 @@ func _spawn_grain():
 
 func _quit_pressed():
 	get_tree().quit()
+
+func _mutate_toggled(button_pressed):
+	mutation_enabled = button_pressed
+
+func _endless_toggled(button_pressed):
+	endless_enabled = button_pressed
