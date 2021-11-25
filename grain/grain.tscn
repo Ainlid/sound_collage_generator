@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://grain/grain.gd" type="Script" id=2]
+
+[node name="grain" type="Node"]
+script = ExtResource( 2 )
+
+[node name="audio" type="AudioStreamPlayer" parent="."]
+
+[node name="timer_delete" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="timer_delete" to="." method="_delete"]

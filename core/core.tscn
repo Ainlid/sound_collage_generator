@@ -1,0 +1,464 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://core/core.gd" type="Script" id=1]
+
+[sub_resource type="AudioStreamSample" id=1]
+
+[node name="core" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="timer_beat" type="Timer" parent="."]
+
+[node name="bg" type="ColorRect" parent="."]
+margin_right = 1920.0
+margin_bottom = 1079.0
+color = Color( 0.376471, 0.376471, 0.376471, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="interface" type="Control" parent="."]
+margin_top = -1.41422
+margin_right = 1920.0
+margin_bottom = 1078.59
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="title" type="Label" parent="interface"]
+margin_top = 17.0
+margin_right = 960.0
+margin_bottom = 41.0
+rect_scale = Vector2( 2, 2 )
+text = "sound collage generator"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="credit" type="Label" parent="interface"]
+margin_left = 1803.18
+margin_top = 1031.73
+margin_right = 1855.18
+margin_bottom = 1049.73
+rect_scale = Vector2( 2, 2 )
+text = "@ainlid"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load_menu" type="Control" parent="interface"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load_button" type="Button" parent="interface/load_menu"]
+margin_left = 67.0
+margin_top = 64.4856
+margin_right = 561.0
+margin_bottom = 120.486
+text = "Load audio"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="file_dialog" type="FileDialog" parent="interface/load_menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -893.0
+margin_top = -332.0
+margin_right = -399.0
+margin_bottom = 144.0
+window_title = "Open File(s)"
+dialog_text = "Select a .wav audio file"
+mode = 1
+access = 2
+filters = PoolStringArray( "*.wav" )
+current_dir = "/Daniil/art/merlang"
+current_path = "/Daniil/art/merlang/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="file_scroll" type="ScrollContainer" parent="interface/load_menu"]
+margin_left = 67.0
+margin_top = 174.444
+margin_right = 561.0
+margin_bottom = 669.444
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="file_list" type="Label" parent="interface/load_menu/file_scroll"]
+margin_right = 108.0
+margin_bottom = 14.0
+text = "No files selected"
+
+[node name="play_button" type="Button" parent="interface"]
+margin_left = 67.0
+margin_top = 733.029
+margin_right = 561.0
+margin_bottom = 789.029
+text = "Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label_params" type="Label" parent="interface"]
+margin_left = 621.0
+margin_top = 80.0
+margin_right = 1576.0
+margin_bottom = 136.0
+text = "Parameters:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tempo_slider" type="HSlider" parent="interface"]
+margin_left = 791.0
+margin_top = 190.0
+margin_right = 1087.0
+margin_bottom = 246.0
+min_value = 50.0
+max_value = 200.0
+value = 120.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tempo_label" type="Label" parent="interface"]
+margin_left = 621.0
+margin_top = 190.0
+margin_right = 746.0
+margin_bottom = 246.0
+text = "Tempo: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="volume_slider" type="HSlider" parent="interface"]
+margin_left = 791.0
+margin_top = 246.042
+margin_right = 1087.0
+margin_bottom = 302.042
+min_value = -6.0
+max_value = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="volume_label" type="Label" parent="interface"]
+margin_left = 621.0
+margin_top = 246.042
+margin_right = 746.0
+margin_bottom = 302.042
+text = "Volume: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pitch_slider" type="HSlider" parent="interface"]
+margin_left = 791.0
+margin_top = 304.042
+margin_right = 1087.0
+margin_bottom = 360.042
+min_value = -6.0
+max_value = 6.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pitch_label" type="Label" parent="interface"]
+margin_left = 621.0
+margin_top = 302.042
+margin_right = 746.0
+margin_bottom = 358.042
+text = "Pitch: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size_slider" type="HSlider" parent="interface"]
+margin_left = 791.0
+margin_top = 366.0
+margin_right = 1087.0
+margin_bottom = 422.0
+min_value = 1.0
+max_value = 4.0
+value = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size_label" type="Label" parent="interface"]
+margin_left = 621.0
+margin_top = 364.0
+margin_right = 746.0
+margin_bottom = 420.0
+text = "Size: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tempo_random_slider" type="HSlider" parent="interface"]
+margin_left = 1280.0
+margin_top = 192.0
+margin_right = 1576.0
+margin_bottom = 248.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tempo_random_label" type="Label" parent="interface"]
+margin_left = 1110.0
+margin_top = 190.0
+margin_right = 1235.0
+margin_bottom = 246.0
+text = "Randomization: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="volume_random_slider" type="HSlider" parent="interface"]
+margin_left = 1280.0
+margin_top = 250.0
+margin_right = 1576.0
+margin_bottom = 306.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="volume_random_label" type="Label" parent="interface"]
+margin_left = 1110.0
+margin_top = 248.0
+margin_right = 1235.0
+margin_bottom = 304.0
+text = "Randomization: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pitch_random_slider" type="HSlider" parent="interface"]
+margin_left = 1280.0
+margin_top = 308.0
+margin_right = 1576.0
+margin_bottom = 364.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pitch_random_label" type="Label" parent="interface"]
+margin_left = 1110.0
+margin_top = 306.0
+margin_right = 1235.0
+margin_bottom = 362.0
+text = "Randomization: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size_random_slider" type="HSlider" parent="interface"]
+margin_left = 1280.0
+margin_top = 368.0
+margin_right = 1576.0
+margin_bottom = 424.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size_random_label" type="Label" parent="interface"]
+margin_left = 1110.0
+margin_top = 366.0
+margin_right = 1235.0
+margin_bottom = 422.0
+text = "Randomization: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rounding_toggle" type="CheckBox" parent="interface"]
+margin_left = 791.0
+margin_top = 424.0
+margin_right = 828.0
+margin_bottom = 480.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rounding_toggle_label" type="Label" parent="interface"]
+margin_left = 621.0
+margin_top = 424.0
+margin_right = 746.0
+margin_bottom = 480.0
+text = "Use rounding: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rounding_slider" type="HSlider" parent="interface"]
+margin_left = 791.0
+margin_top = 482.0
+margin_right = 1087.0
+margin_bottom = 538.0
+min_value = 2.0
+max_value = 16.0
+value = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rounding_label" type="Label" parent="interface"]
+margin_left = 621.0
+margin_top = 480.0
+margin_right = 746.0
+margin_bottom = 536.0
+text = "Rounding factor: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="seed_box" type="SpinBox" parent="interface"]
+margin_left = 791.0
+margin_top = 629.321
+margin_right = 1087.0
+margin_bottom = 683.321
+max_value = 1e+10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="seed_label" type="Label" parent="interface"]
+margin_left = 621.0
+margin_top = 629.321
+margin_right = 746.0
+margin_bottom = 685.321
+text = "RNG seed: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="seed_random_button" type="Button" parent="interface"]
+margin_left = 1087.0
+margin_top = 629.321
+margin_right = 1280.0
+margin_bottom = 685.321
+text = "Random seed"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="info" type="Label" parent="interface"]
+margin_left = 620.0
+margin_top = 734.321
+margin_right = 1816.0
+margin_bottom = 816.321
+text = "Tempo determines how often the audio fragments spawn. Volume, pitch and size are applied to fragments individually.
+You can control the parameters manually as the music is being generated, or set the probability of random changes using the \"Randomization\" sliders.
+Rounding rounds up the playback timestamps, the lower the value the more repetition you will hear.
+Every random change to the audio is tied to a single Random Number Generator. Having the same RNG seed and settings will allow you to replicate the results.
+
+Feel free to use the tool and its source files on Github! Giving credit is appreciated, but not necessary. Have fun!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="record_button" type="Button" parent="interface"]
+margin_left = 67.0
+margin_top = 839.0
+margin_right = 561.0
+margin_bottom = 895.0
+toggle_mode = true
+text = "Record"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="save_button" type="Button" parent="interface"]
+margin_left = 67.0
+margin_top = 953.551
+margin_right = 237.0
+margin_bottom = 1009.55
+text = "Save recording to:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="save_path_label" type="LineEdit" parent="interface"]
+margin_left = 237.0
+margin_top = 954.0
+margin_right = 882.0
+margin_bottom = 1010.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="quit_button" type="Button" parent="interface"]
+margin_left = 1863.83
+margin_top = 1.41422
+margin_right = 1919.83
+margin_bottom = 57.4142
+text = "X"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="master_volume_slider" type="HSlider" parent="interface"]
+margin_left = 791.0
+margin_top = 538.0
+margin_right = 1087.0
+margin_bottom = 594.0
+min_value = -12.0
+max_value = 0.0
+
+[node name="master_volume_label" type="Label" parent="interface"]
+margin_left = 621.0
+margin_top = 538.0
+margin_right = 746.0
+margin_bottom = 594.0
+text = "Master volume: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="audio_record" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 1 )
+autoplay = true
+
+[connection signal="timeout" from="timer_beat" to="." method="_tick"]
+[connection signal="pressed" from="interface/load_menu/load_button" to="." method="_load_pressed"]
+[connection signal="files_selected" from="interface/load_menu/file_dialog" to="." method="_files_selected"]
+[connection signal="pressed" from="interface/play_button" to="." method="_play_pressed"]
+[connection signal="value_changed" from="interface/tempo_slider" to="." method="_set_tempo"]
+[connection signal="value_changed" from="interface/volume_slider" to="." method="_set_volume"]
+[connection signal="value_changed" from="interface/pitch_slider" to="." method="_set_pitch"]
+[connection signal="value_changed" from="interface/size_slider" to="." method="_set_size"]
+[connection signal="value_changed" from="interface/tempo_random_slider" to="." method="_set_tempo_random"]
+[connection signal="value_changed" from="interface/volume_random_slider" to="." method="_set_volume_random"]
+[connection signal="value_changed" from="interface/pitch_random_slider" to="." method="_set_pitch_random"]
+[connection signal="value_changed" from="interface/size_random_slider" to="." method="_set_size_random"]
+[connection signal="toggled" from="interface/rounding_toggle" to="." method="_toggle_rounding"]
+[connection signal="value_changed" from="interface/rounding_slider" to="." method="_set_rounding"]
+[connection signal="value_changed" from="interface/seed_box" to="." method="_set_seed"]
+[connection signal="pressed" from="interface/seed_random_button" to="." method="_randomize_seed"]
+[connection signal="pressed" from="interface/record_button" to="." method="_record_pressed"]
+[connection signal="pressed" from="interface/save_button" to="." method="_save_pressed"]
+[connection signal="pressed" from="interface/quit_button" to="." method="_quit_pressed"]
+[connection signal="value_changed" from="interface/master_volume_slider" to="." method="_set_master_volume"]
