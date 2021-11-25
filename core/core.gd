@@ -9,6 +9,7 @@ onready var file_dialog = $interface/load_menu/file_dialog
 onready var file_list = $interface/load_menu/file_scroll/file_list
 
 onready var play_button = $interface/play_button
+onready var samples_error = $interface/samples_error
 var playing = false
 
 var rng
@@ -29,34 +30,34 @@ var volume_random = 0.0
 var pitch_random = 0.0
 var size_random = 0.0
 
-onready var tempo_label = $interface/tempo_label
-onready var tempo_slider = $interface/tempo_slider
+onready var tempo_label = $interface/settings/tempo_label
+onready var tempo_slider = $interface/settings/tempo_slider
 
-onready var volume_label = $interface/volume_label
-onready var volume_slider = $interface/volume_slider
+onready var volume_label = $interface/settings/volume_label
+onready var volume_slider = $interface/settings/volume_slider
 
-onready var pitch_label = $interface/pitch_label
-onready var pitch_slider = $interface/pitch_slider
+onready var pitch_label = $interface/settings/pitch_label
+onready var pitch_slider = $interface/settings/pitch_slider
 
-onready var size_label = $interface/size_label
-onready var size_slider = $interface/size_slider
+onready var size_label = $interface/settings/size_label
+onready var size_slider = $interface/settings/size_slider
 
-onready var rounding_label = $interface/rounding_label
-onready var rounding_slider = $interface/rounding_slider
+onready var rounding_label = $interface/settings/rounding_label
+onready var rounding_slider = $interface/settings/rounding_slider
 
-onready var tempo_random_label = $interface/tempo_random_label
-onready var tempo_random_slider = $interface/tempo_random_slider
+onready var tempo_random_label = $interface/settings/tempo_random_label
+onready var tempo_random_slider = $interface/settings/tempo_random_slider
 
-onready var volume_random_label = $interface/volume_random_label
-onready var volume_random_slider = $interface/volume_random_slider
+onready var volume_random_label = $interface/settings/volume_random_label
+onready var volume_random_slider = $interface/settings/volume_random_slider
 
-onready var pitch_random_label = $interface/pitch_random_label
-onready var pitch_random_slider = $interface/pitch_random_slider
+onready var pitch_random_label = $interface/settings/pitch_random_label
+onready var pitch_random_slider = $interface/settings/pitch_random_slider
 
-onready var size_random_label = $interface/size_random_label
-onready var size_random_slider = $interface/size_random_slider
+onready var size_random_label = $interface/settings/size_random_label
+onready var size_random_slider = $interface/settings/size_random_slider
 
-onready var seed_box = $interface/seed_box
+onready var seed_box = $interface/settings/seed_box
 
 onready var audio_record = $audio_record
 onready var record_button = $interface/record_button
@@ -87,7 +88,7 @@ func _ready():
 
 	_randomize_seed()
 
-	play_button.disabled = true
+	_clear_samples()
 
 	effect = AudioServer.get_bus_effect(0, 0)
 	save_path_label.text = OS.get_executable_path().get_base_dir() + "/recording.wav"
@@ -160,7 +161,7 @@ func _load_pressed():
 	file_dialog.popup_centered()
 
 func _files_selected(paths):
-	samples = []
+	_clear_samples()
 	file_list.text = "Loaded: \n"
 	var file = File.new()
 	for n in paths.size():
@@ -177,9 +178,16 @@ func _files_selected(paths):
 			file.close()
 	play_button.disabled = false
 
+func _clear_samples():
+	samples = []
+	file_list.text = "No samples selected"
+
 func _play_pressed():
 	if !playing:
-		_play_start()
+		if !samples.empty():
+			_play_start()
+		else:
+			samples_error.popup_centered()
 	else:
 		_play_stop()
 
@@ -233,7 +241,6 @@ func _randomize_params():
 		_set_size(new_size)
 
 func _spawn_grain():
-	var spawn_chance = rng.randf() * 100.0
 	var new_grain = grain.instance()
 	add_child(new_grain)
 	var sample_id = rng.randi_range(0, samples.size() - 1)

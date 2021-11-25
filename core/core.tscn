@@ -47,319 +47,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_menu" type="Control" parent="interface"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="load_button" type="Button" parent="interface/load_menu"]
-margin_left = 67.0
-margin_top = 64.4856
-margin_right = 561.0
-margin_bottom = 120.486
-text = "Load audio"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="file_dialog" type="FileDialog" parent="interface/load_menu"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -893.0
-margin_top = -332.0
-margin_right = -399.0
-margin_bottom = 144.0
-window_title = "Open File(s)"
-dialog_text = "Select a .wav audio file"
-mode = 1
-access = 2
-filters = PoolStringArray( "*.wav" )
-current_dir = "/Daniil/art/merlang"
-current_path = "/Daniil/art/merlang/"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="file_scroll" type="ScrollContainer" parent="interface/load_menu"]
-margin_left = 67.0
-margin_top = 174.444
-margin_right = 561.0
-margin_bottom = 669.444
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="file_list" type="Label" parent="interface/load_menu/file_scroll"]
-margin_right = 108.0
-margin_bottom = 14.0
-text = "No files selected"
-
 [node name="play_button" type="Button" parent="interface"]
 margin_left = 67.0
 margin_top = 733.029
 margin_right = 561.0
 margin_bottom = 789.029
 text = "Play"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="label_params" type="Label" parent="interface"]
-margin_left = 621.0
-margin_top = 80.0
-margin_right = 1576.0
-margin_bottom = 136.0
-text = "Parameters:"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="tempo_slider" type="HSlider" parent="interface"]
-margin_left = 791.0
-margin_top = 190.0
-margin_right = 1087.0
-margin_bottom = 246.0
-min_value = 50.0
-max_value = 200.0
-value = 120.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="tempo_label" type="Label" parent="interface"]
-margin_left = 621.0
-margin_top = 190.0
-margin_right = 746.0
-margin_bottom = 246.0
-text = "Tempo: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="volume_slider" type="HSlider" parent="interface"]
-margin_left = 791.0
-margin_top = 246.042
-margin_right = 1087.0
-margin_bottom = 302.042
-min_value = -6.0
-max_value = 0.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="volume_label" type="Label" parent="interface"]
-margin_left = 621.0
-margin_top = 246.042
-margin_right = 746.0
-margin_bottom = 302.042
-text = "Volume: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="pitch_slider" type="HSlider" parent="interface"]
-margin_left = 791.0
-margin_top = 304.042
-margin_right = 1087.0
-margin_bottom = 360.042
-min_value = -6.0
-max_value = 6.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="pitch_label" type="Label" parent="interface"]
-margin_left = 621.0
-margin_top = 302.042
-margin_right = 746.0
-margin_bottom = 358.042
-text = "Pitch: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="size_slider" type="HSlider" parent="interface"]
-margin_left = 791.0
-margin_top = 366.0
-margin_right = 1087.0
-margin_bottom = 422.0
-min_value = 1.0
-max_value = 4.0
-value = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="size_label" type="Label" parent="interface"]
-margin_left = 621.0
-margin_top = 364.0
-margin_right = 746.0
-margin_bottom = 420.0
-text = "Size: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="tempo_random_slider" type="HSlider" parent="interface"]
-margin_left = 1280.0
-margin_top = 192.0
-margin_right = 1576.0
-margin_bottom = 248.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="tempo_random_label" type="Label" parent="interface"]
-margin_left = 1110.0
-margin_top = 190.0
-margin_right = 1235.0
-margin_bottom = 246.0
-text = "Randomization: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="volume_random_slider" type="HSlider" parent="interface"]
-margin_left = 1280.0
-margin_top = 250.0
-margin_right = 1576.0
-margin_bottom = 306.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="volume_random_label" type="Label" parent="interface"]
-margin_left = 1110.0
-margin_top = 248.0
-margin_right = 1235.0
-margin_bottom = 304.0
-text = "Randomization: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="pitch_random_slider" type="HSlider" parent="interface"]
-margin_left = 1280.0
-margin_top = 308.0
-margin_right = 1576.0
-margin_bottom = 364.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="pitch_random_label" type="Label" parent="interface"]
-margin_left = 1110.0
-margin_top = 306.0
-margin_right = 1235.0
-margin_bottom = 362.0
-text = "Randomization: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="size_random_slider" type="HSlider" parent="interface"]
-margin_left = 1280.0
-margin_top = 368.0
-margin_right = 1576.0
-margin_bottom = 424.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="size_random_label" type="Label" parent="interface"]
-margin_left = 1110.0
-margin_top = 366.0
-margin_right = 1235.0
-margin_bottom = 422.0
-text = "Randomization: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="rounding_toggle" type="CheckBox" parent="interface"]
-margin_left = 791.0
-margin_top = 424.0
-margin_right = 828.0
-margin_bottom = 480.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="rounding_toggle_label" type="Label" parent="interface"]
-margin_left = 621.0
-margin_top = 424.0
-margin_right = 746.0
-margin_bottom = 480.0
-text = "Use rounding: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="rounding_slider" type="HSlider" parent="interface"]
-margin_left = 791.0
-margin_top = 482.0
-margin_right = 1087.0
-margin_bottom = 538.0
-min_value = 2.0
-max_value = 16.0
-value = 16.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="rounding_label" type="Label" parent="interface"]
-margin_left = 621.0
-margin_top = 480.0
-margin_right = 746.0
-margin_bottom = 536.0
-text = "Rounding factor: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="seed_box" type="SpinBox" parent="interface"]
-margin_left = 791.0
-margin_top = 629.321
-margin_right = 1087.0
-margin_bottom = 683.321
-max_value = 1e+10
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="seed_label" type="Label" parent="interface"]
-margin_left = 621.0
-margin_top = 629.321
-margin_right = 746.0
-margin_bottom = 685.321
-text = "RNG seed: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="seed_random_button" type="Button" parent="interface"]
-margin_left = 1087.0
-margin_top = 629.321
-margin_right = 1280.0
-margin_bottom = 685.321
-text = "Random seed"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -438,27 +131,339 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="settings" type="Node" parent="interface"]
+
+[node name="label_params" type="Label" parent="interface/settings"]
+margin_left = 621.0
+margin_top = 78.5858
+margin_right = 1576.0
+margin_bottom = 134.586
+text = "Parameters:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tempo_slider" type="HSlider" parent="interface/settings"]
+margin_left = 791.0
+margin_top = 188.586
+margin_right = 1087.0
+margin_bottom = 244.586
+min_value = 50.0
+max_value = 200.0
+value = 120.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tempo_label" type="Label" parent="interface/settings"]
+margin_left = 621.0
+margin_top = 188.586
+margin_right = 746.0
+margin_bottom = 244.586
+text = "Tempo: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="volume_slider" type="HSlider" parent="interface/settings"]
+margin_left = 791.0
+margin_top = 244.628
+margin_right = 1087.0
+margin_bottom = 300.628
+min_value = -6.0
+max_value = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="volume_label" type="Label" parent="interface/settings"]
+margin_left = 621.0
+margin_top = 244.628
+margin_right = 746.0
+margin_bottom = 300.628
+text = "Volume: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pitch_slider" type="HSlider" parent="interface/settings"]
+margin_left = 791.0
+margin_top = 302.628
+margin_right = 1087.0
+margin_bottom = 358.628
+min_value = -6.0
+max_value = 6.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pitch_label" type="Label" parent="interface/settings"]
+margin_left = 621.0
+margin_top = 300.628
+margin_right = 746.0
+margin_bottom = 356.628
+text = "Pitch: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size_slider" type="HSlider" parent="interface/settings"]
+margin_left = 791.0
+margin_top = 364.586
+margin_right = 1087.0
+margin_bottom = 420.586
+min_value = 1.0
+max_value = 4.0
+value = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size_label" type="Label" parent="interface/settings"]
+margin_left = 621.0
+margin_top = 362.586
+margin_right = 746.0
+margin_bottom = 418.586
+text = "Size: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tempo_random_slider" type="HSlider" parent="interface/settings"]
+margin_left = 1280.0
+margin_top = 190.586
+margin_right = 1576.0
+margin_bottom = 246.586
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tempo_random_label" type="Label" parent="interface/settings"]
+margin_left = 1110.0
+margin_top = 188.586
+margin_right = 1235.0
+margin_bottom = 244.586
+text = "Randomization: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="volume_random_slider" type="HSlider" parent="interface/settings"]
+margin_left = 1280.0
+margin_top = 248.586
+margin_right = 1576.0
+margin_bottom = 304.586
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="volume_random_label" type="Label" parent="interface/settings"]
+margin_left = 1110.0
+margin_top = 246.586
+margin_right = 1235.0
+margin_bottom = 302.586
+text = "Randomization: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pitch_random_slider" type="HSlider" parent="interface/settings"]
+margin_left = 1280.0
+margin_top = 306.586
+margin_right = 1576.0
+margin_bottom = 362.586
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pitch_random_label" type="Label" parent="interface/settings"]
+margin_left = 1110.0
+margin_top = 304.586
+margin_right = 1235.0
+margin_bottom = 360.586
+text = "Randomization: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size_random_slider" type="HSlider" parent="interface/settings"]
+margin_left = 1280.0
+margin_top = 366.586
+margin_right = 1576.0
+margin_bottom = 422.586
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size_random_label" type="Label" parent="interface/settings"]
+margin_left = 1110.0
+margin_top = 364.586
+margin_right = 1235.0
+margin_bottom = 420.586
+text = "Randomization: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rounding_toggle" type="CheckBox" parent="interface/settings"]
+margin_left = 791.0
+margin_top = 422.586
+margin_right = 828.0
+margin_bottom = 478.586
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rounding_toggle_label" type="Label" parent="interface/settings"]
+margin_left = 621.0
+margin_top = 422.586
+margin_right = 746.0
+margin_bottom = 478.586
+text = "Use rounding: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rounding_slider" type="HSlider" parent="interface/settings"]
+margin_left = 791.0
+margin_top = 480.586
+margin_right = 1087.0
+margin_bottom = 536.586
+min_value = 2.0
+max_value = 16.0
+value = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rounding_label" type="Label" parent="interface/settings"]
+margin_left = 621.0
+margin_top = 478.586
+margin_right = 746.0
+margin_bottom = 534.586
+text = "Rounding factor: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="seed_box" type="SpinBox" parent="interface/settings"]
+margin_left = 791.0
+margin_top = 627.907
+margin_right = 1087.0
+margin_bottom = 681.907
+max_value = 1e+10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="seed_label" type="Label" parent="interface/settings"]
+margin_left = 621.0
+margin_top = 627.907
+margin_right = 746.0
+margin_bottom = 683.907
+text = "RNG seed: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="seed_random_button" type="Button" parent="interface/settings"]
+margin_left = 1087.0
+margin_top = 627.907
+margin_right = 1280.0
+margin_bottom = 683.907
+text = "Random seed"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load_menu" type="Node" parent="interface"]
+
+[node name="load_button" type="Button" parent="interface/load_menu"]
+margin_left = 67.0
+margin_top = 64.4856
+margin_right = 561.0
+margin_bottom = 120.486
+text = "Load audio"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="file_dialog" type="FileDialog" parent="interface/load_menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -893.0
+margin_top = -332.0
+margin_right = -399.0
+margin_bottom = 144.0
+window_title = "Open File(s)"
+dialog_text = "Select a .wav audio file"
+mode = 1
+access = 2
+filters = PoolStringArray( "*.wav" )
+current_dir = "/Daniil/art/merlang"
+current_path = "/Daniil/art/merlang/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="file_scroll" type="ScrollContainer" parent="interface/load_menu"]
+margin_left = 67.0
+margin_top = 174.444
+margin_right = 561.0
+margin_bottom = 669.444
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="file_list" type="Label" parent="interface/load_menu/file_scroll"]
+margin_right = 108.0
+margin_bottom = 14.0
+text = "No files selected"
+
+[node name="samples_error" type="AcceptDialog" parent="interface"]
+margin_left = 274.357
+margin_top = 304.056
+margin_right = 406.357
+margin_bottom = 383.056
+window_title = "Error"
+dialog_text = "Missing samples"
+
 [node name="audio_record" type="AudioStreamPlayer" parent="."]
 stream = SubResource( 1 )
 autoplay = true
 
 [connection signal="timeout" from="timer_beat" to="." method="_tick"]
-[connection signal="pressed" from="interface/load_menu/load_button" to="." method="_load_pressed"]
-[connection signal="files_selected" from="interface/load_menu/file_dialog" to="." method="_files_selected"]
 [connection signal="pressed" from="interface/play_button" to="." method="_play_pressed"]
-[connection signal="value_changed" from="interface/tempo_slider" to="." method="_set_tempo"]
-[connection signal="value_changed" from="interface/volume_slider" to="." method="_set_volume"]
-[connection signal="value_changed" from="interface/pitch_slider" to="." method="_set_pitch"]
-[connection signal="value_changed" from="interface/size_slider" to="." method="_set_size"]
-[connection signal="value_changed" from="interface/tempo_random_slider" to="." method="_set_tempo_random"]
-[connection signal="value_changed" from="interface/volume_random_slider" to="." method="_set_volume_random"]
-[connection signal="value_changed" from="interface/pitch_random_slider" to="." method="_set_pitch_random"]
-[connection signal="value_changed" from="interface/size_random_slider" to="." method="_set_size_random"]
-[connection signal="toggled" from="interface/rounding_toggle" to="." method="_toggle_rounding"]
-[connection signal="value_changed" from="interface/rounding_slider" to="." method="_set_rounding"]
-[connection signal="value_changed" from="interface/seed_box" to="." method="_set_seed"]
-[connection signal="pressed" from="interface/seed_random_button" to="." method="_randomize_seed"]
 [connection signal="pressed" from="interface/record_button" to="." method="_record_pressed"]
 [connection signal="pressed" from="interface/save_button" to="." method="_save_pressed"]
 [connection signal="pressed" from="interface/quit_button" to="." method="_quit_pressed"]
 [connection signal="value_changed" from="interface/master_volume_slider" to="." method="_set_master_volume"]
+[connection signal="value_changed" from="interface/settings/tempo_slider" to="." method="_set_tempo"]
+[connection signal="value_changed" from="interface/settings/volume_slider" to="." method="_set_volume"]
+[connection signal="value_changed" from="interface/settings/pitch_slider" to="." method="_set_pitch"]
+[connection signal="value_changed" from="interface/settings/size_slider" to="." method="_set_size"]
+[connection signal="value_changed" from="interface/settings/tempo_random_slider" to="." method="_set_tempo_random"]
+[connection signal="value_changed" from="interface/settings/volume_random_slider" to="." method="_set_volume_random"]
+[connection signal="value_changed" from="interface/settings/pitch_random_slider" to="." method="_set_pitch_random"]
+[connection signal="value_changed" from="interface/settings/size_random_slider" to="." method="_set_size_random"]
+[connection signal="toggled" from="interface/settings/rounding_toggle" to="." method="_toggle_rounding"]
+[connection signal="value_changed" from="interface/settings/rounding_slider" to="." method="_set_rounding"]
+[connection signal="value_changed" from="interface/settings/seed_box" to="." method="_set_seed"]
+[connection signal="pressed" from="interface/settings/seed_random_button" to="." method="_randomize_seed"]
+[connection signal="pressed" from="interface/load_menu/load_button" to="." method="_load_pressed"]
+[connection signal="files_selected" from="interface/load_menu/file_dialog" to="." method="_files_selected"]
