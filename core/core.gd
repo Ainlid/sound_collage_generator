@@ -117,7 +117,7 @@ func _pick_pitch():
 	return new_pitch
 
 func _pick_size():
-	var new_size = rng.randi_range(1, 4)
+	var new_size = rng.randi_range(1, 4) * interval
 	return new_size
 
 func _pick_volume():
@@ -179,8 +179,7 @@ func _save_pressed():
 	recording.save_to_wav(save_path)
 
 func _tick():
-	if rng.randf() < 0.5:
-		_spawn_grain()
+	_spawn_grain()
 	tick_index += 1
 	if tick_index > bar_size - 1:
 		if mutation_enabled:
