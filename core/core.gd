@@ -20,10 +20,8 @@ onready var samples_error = $interface/samples_error
 var playing = false
 
 var mutation_enabled = true
-var endless_enabled = false
 
 var rng
-var rng_seed
 
 var grain = preload("res://grain/grain.tscn")
 
@@ -33,11 +31,10 @@ onready var tempo_slider = $interface/settings/tempo_slider
 onready var duration_label = $interface/settings/duration_label
 onready var duration_spinbox = $interface/settings/duration_spinbox
 
-onready var seed_box = $interface/settings/seed_box
-
 onready var audio_record = $audio_record
 onready var record_button = $interface/record_button
-onready var save_path_label = $interface/save_path_label
+onready var save_dialog = $interface/save_dialog
+onready var null_save_error = $interface/null_save_error
 
 var effect
 var recording
@@ -52,20 +49,12 @@ func _ready():
 	_set_tempo(120.0)
 	_set_duration(120.0)
 	_set_master_volume(0.0)
-	_randomize_seed()
+	rng.seed = randi()
 	_clear_samples()
 
 	effect = AudioServer.get_bus_effect(0, 0)
-	save_path_label.text = OS.get_executable_path().get_base_dir() + "/recording.wav"
-
-func _set_seed(value):
-	rng_seed = value
-	rng.seed = value
-	seed_box.value = value
-
-func _randomize_seed():
-	var new_seed = randi()
-	_set_seed(new_seed)
+	save_dialog.current_dir = OS.get_executable_path().get_base_dir()
+	save_dialog.current_file = "recording.wav"
 
 func _set_tempo(value):
 	tempo = value
@@ -151,12 +140,8 @@ func _play_pressed():
 		_play_stop()
 
 func _play_start():
-	_set_seed(rng_seed)
 	_generate_samples()
 	timer_tick.start()
-	if !endless_enabled:
-		timer_end.wait_time = duration
-		timer_end.start()
 	playing = true
 	play_button.text = "Stop"
 
@@ -175,8 +160,13 @@ func _record_pressed():
 		record_button.text = "Stop recording"
 
 func _save_pressed():
-	var save_path = save_path_label.text
-	recording.save_to_wav(save_path)
+	save_dialog.popup_centered()
+
+func _save_confirmed(save_path):
+	if recording:
+		recording.save_to_wav(save_path)
+	else:
+		null_save_error.popup_centered()
 
 func _tick():
 	_spawn_grain()
@@ -187,7 +177,7 @@ func _tick():
 		tick_index = 0
 
 func _mutate():
-	var amount = rng.randi()%samples.size()
+	var amount = rng.randi_range(1, samples.size())
 	for n in amount:
 		var sample_id = rng.randi()%samples.size()
 		var sample = samples[sample_id]
@@ -210,6 +200,3 @@ func _quit_pressed():
 
 func _mutate_toggled(button_pressed):
 	mutation_enabled = button_pressed
-
-func _endless_toggled(button_pressed):
-	endless_enabled = button_pressed
