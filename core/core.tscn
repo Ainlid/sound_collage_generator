@@ -33,7 +33,7 @@ margin_top = 17.0
 margin_right = 960.0
 margin_bottom = 41.0
 rect_scale = Vector2( 2, 2 )
-text = "sound collage generator"
+text = "sound collage generator (v. 1.1.0)"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
