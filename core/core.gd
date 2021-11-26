@@ -4,9 +4,7 @@ var tempo = 120.0
 var interval = 1.0
 var tick_index = 0
 var bar_size = 8
-var duration = 120.0
 onready var timer_tick = $timer_tick
-onready var timer_end = $timer_end
 
 var streams = []
 var samples_amount = 16
@@ -47,7 +45,6 @@ func _ready():
 	rng = RandomNumberGenerator.new()
 
 	_set_tempo(120.0)
-	_set_duration(120.0)
 	_set_master_volume(0.0)
 	rng.seed = randi()
 	_clear_samples()
@@ -62,10 +59,6 @@ func _set_tempo(value):
 	timer_tick.wait_time = interval
 	tempo_slider.value = value
 	tempo_label.text = "Tempo: " + str(round(value)) + " BPM"
-
-func _set_duration(value):
-	duration = value
-	duration_spinbox.value = value
 
 func _set_master_volume(value):
 	AudioServer.set_bus_volume_db(0, value)

@@ -199,27 +199,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="duration_label" type="Label" parent="interface/settings"]
-margin_left = 621.0
-margin_top = 303.642
-margin_right = 757.0
-margin_bottom = 359.642
-text = "Duration in seconds: "
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="duration_spinbox" type="SpinBox" parent="interface/settings"]
-margin_left = 791.0
-margin_top = 317.0
-margin_right = 915.0
-margin_bottom = 341.0
-max_value = 6000.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="load_menu" type="Node" parent="interface"]
 
 [node name="load_button" type="Button" parent="interface/load_menu"]
@@ -287,6 +266,5 @@ autoplay = true
 [connection signal="value_changed" from="interface/settings/tempo_slider" to="." method="_set_tempo"]
 [connection signal="value_changed" from="interface/settings/master_volume_slider" to="." method="_set_master_volume"]
 [connection signal="toggled" from="interface/settings/mutate_toggle" to="." method="_mutate_toggled"]
-[connection signal="value_changed" from="interface/settings/duration_spinbox" to="." method="_set_duration"]
 [connection signal="pressed" from="interface/load_menu/load_button" to="." method="_load_pressed"]
 [connection signal="files_selected" from="interface/load_menu/file_dialog" to="." method="_files_selected"]
