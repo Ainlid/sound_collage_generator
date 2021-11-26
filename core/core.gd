@@ -8,11 +8,9 @@ var duration = 120.0
 onready var timer_tick = $timer_tick
 onready var timer_end = $timer_end
 
+var streams = []
+var samples_amount = 16
 var samples = []
-var offset_amount = 8
-var pitch_amount = 4
-var size_amount = 4
-var volume_amount = 4
 
 onready var file_dialog = $interface/load_menu/file_dialog
 onready var file_list = $interface/load_menu/file_scroll/file_list
@@ -63,11 +61,11 @@ func _ready():
 func _set_seed(value):
 	rng_seed = value
 	rng.seed = value
+	seed_box.value = value
 
 func _randomize_seed():
 	var new_seed = randi()
-	rng.seed = new_seed
-	seed_box.value = new_seed
+	_set_seed(new_seed)
 
 func _set_tempo(value):
 	tempo = value
@@ -101,29 +99,14 @@ func _files_selected(paths):
 			new_stream.data = buffer
 			new_stream.stereo = true
 			new_stream.mix_rate = 44100
-			var offsets = []
-			for n_offset in offset_amount:
-				offsets.append(_pick_offset(new_stream))
-			var pitches = []
-			for n_pitch in pitch_amount:
-				pitches.append(_pick_pitch())
-			var sizes = []
-			for n_size in size_amount:
-				sizes.append(_pick_size())
-			var volumes = []
-			for n_volume in volume_amount:
-				volumes.append(_pick_volume())
-			var new_sample = {
-				"stream" : new_stream,
-				"offsets" : offsets,
-				"pitches" : pitches,
-				"sizes" : sizes,
-				"volumes" : volumes,
-			}
-			samples.append(new_sample)
+			streams.append(new_stream)
 			file_list.text += str(paths[n].get_file()) + "\n"
 			file.close()
 	play_button.disabled = false
+
+func _pick_stream():
+	var id = rng.randi()%streams.size()
+	return streams[id]
 
 func _pick_offset(stream):
 	var new_offset = rng.randf_range(0.0, stream.get_length())
@@ -142,12 +125,25 @@ func _pick_volume():
 	return new_volume
 
 func _clear_samples():
+	streams = []
 	samples = []
 	file_list.text = "No samples selected"
 
+func _generate_samples():
+	for n in samples_amount:
+		var stream = _pick_stream()
+		var new_sample = {
+			"stream" : stream,
+			"offset" : _pick_offset(stream),
+			"pitch" : _pick_pitch(),
+			"size" : _pick_size(),
+			"volume" : _pick_volume(),
+		}
+		samples.append(new_sample)
+
 func _play_pressed():
 	if !playing:
-		if !samples.empty():
+		if !streams.empty():
 			_play_start()
 		else:
 			samples_error.popup_centered()
@@ -156,6 +152,7 @@ func _play_pressed():
 
 func _play_start():
 	_set_seed(rng_seed)
+	_generate_samples()
 	timer_tick.start()
 	if !endless_enabled:
 		timer_end.wait_time = duration
@@ -182,7 +179,8 @@ func _save_pressed():
 	recording.save_to_wav(save_path)
 
 func _tick():
-	_spawn_grain()
+	if rng.randf() < 0.5:
+		_spawn_grain()
 	tick_index += 1
 	if tick_index > bar_size - 1:
 		if mutation_enabled:
@@ -190,30 +188,23 @@ func _tick():
 		tick_index = 0
 
 func _mutate():
-	for n_sample in samples:
-		var offset_id = rng.randi()%n_sample["offsets"].size()
-		n_sample["offsets"][offset_id] = _pick_offset(n_sample["stream"])
-		var pitch_id = rng.randi()%n_sample["pitches"].size()
-		n_sample["pitches"][pitch_id] = _pick_pitch()
-		var size_id = rng.randi()%n_sample["sizes"].size()
-		n_sample["sizes"][size_id] = _pick_size()
-		var volume_id = rng.randi()%n_sample["volumes"].size()
-		n_sample["volumes"][volume_id] = _pick_volume()
+	var amount = rng.randi()%samples.size()
+	for n in amount:
+		var sample_id = rng.randi()%samples.size()
+		var sample = samples[sample_id]
+		var stream = _pick_stream()
+		sample["stream"] = stream
+		sample["offset"] = _pick_offset(stream)
+		sample["pitch"] = _pick_pitch()
+		sample["size"] = _pick_size()
+		sample["volume"] = _pick_volume()
 
 func _spawn_grain():
 	var new_grain = grain.instance()
 	add_child(new_grain)
 	var sample_id = rng.randi()%samples.size()
-	var current_sample = samples[sample_id]
-	var offset_array = current_sample["offsets"]
-	var random_offset = offset_array[rng.randi()%offset_array.size()]
-	var pitch_array = current_sample["pitches"]
-	var random_pitch = pitch_array[rng.randi()%pitch_array.size()]
-	var size_array = current_sample["sizes"]
-	var random_size = size_array[rng.randi()%size_array.size()] * interval
-	var volume_array = current_sample["volumes"]
-	var random_volume = volume_array[rng.randi()%volume_array.size()]
-	new_grain._grain_play(current_sample["stream"], random_offset, random_pitch, random_size, random_volume)
+	var sample = samples[sample_id]
+	new_grain._grain_play(sample)
 
 func _quit_pressed():
 	get_tree().quit()
